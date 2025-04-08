@@ -22,7 +22,7 @@ class SurveysController < ApplicationController
     survey = Survey.new(survey_params)
 
     if survey.save
-      render json: survey, status: :created      
+      render json: survey, status: :created
     else
       render json: { errors: survey.errors.full_messages }, status: :unprocessable_entity
     end
