@@ -1,25 +1,34 @@
-# README
+# Backend
 
-This README would normally document whatever steps are necessary to get the
-application up and running.
+This is the backend API for the Survey System, built with Ruby on Rails and PostgreSQL. It supports dynamic survey creation, user participation, and KPI-based analysis.
 
-Things you may want to cover:
+## 🔧 Tech Stack
 
-* Ruby version
+- **Ruby**: 3.2.4  
+- **Rails**: 8.0.2
+- **Database**: PostgreSQL  
+- **Authentication**: Dummy login (Devise JWT planned)  
 
-* System dependencies
+## 🚀 Setup & Installation
 
-* Configuration
+### Prerequisites
 
-* Database creation
+- Ruby 3.2.4
+- PostgreSQL installed and running
+- Bundler
 
-* Database initialization
+### Steps
 
-* How to run the test suite
+1. Clone the repository:
+   ```bash
+   git clone https://github.com/
+   cd your-backend-repo
+   
+2. Install dependencies:
+  ```bash
+  bundle install
 
-* Services (job queues, cache servers, search engines, etc.)
+3.Set up the database:
 
-* Deployment instructions
 
-* ...
-# Coach-Backend
+
