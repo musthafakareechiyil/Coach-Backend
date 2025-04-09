@@ -45,8 +45,6 @@ This is the backend API for the Survey System, built with Ruby on Rails and Post
 📌 Notes
 - Authentication is handled using a dummy login system.
 - Seeds are available for testing the survey flow.
-- RSpec will be implemented soon for testing.
-
 
 
 
