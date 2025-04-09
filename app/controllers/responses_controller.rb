@@ -41,6 +41,10 @@ class ResponsesController < ApplicationController
     return render json: { error: "Invalid survey or user" }, status: :unprocessable_entity unless survey && user
     return render json: { error: "User not in survey" }, status: :unprocessable_entity unless survey.users.exists?(user.id)
 
+    if Response.exists?(user_id: user.id, survey_id: survey.id)
+      return render json: { error: "You have already submitted this survey." }, status: :unprocessable_entity
+    end
+
     responses = []
 
     begin
