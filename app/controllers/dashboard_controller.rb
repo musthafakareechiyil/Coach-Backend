@@ -53,19 +53,26 @@ class DashboardController < ApplicationController
     end
 
     # 2. Recent user responses
-    Response.order(created_at: :desc).limit(5).each do |response|
-      user = User.find_by(id: response.user_id)
-      survey = Survey.find_by(id: response.survey_id)
+    # 2. Recent user submissions grouped by survey and user
+    recent_feedbacks = Response
+      .select("DISTINCT ON (user_id, survey_id) user_id, survey_id, created_at")
+      .order("user_id, survey_id, created_at DESC")
+      .limit(5)
+
+    recent_feedbacks.each do |feedback|
+      user = User.find_by(id: feedback.user_id)
+      survey = Survey.find_by(id: feedback.survey_id)
 
       if user && survey
         recent_events << {
           message: "#{user.name} submitted feedback for '#{survey.name}'",
-          time: response.created_at
+          time: feedback.created_at
         }
       end
     end
 
-    # 3. Survey completions (optional logic: when all assigned users have responded)
+
+    # 3. Survey completions (when all assigned users have responded)
     Survey.all.each do |survey|
       total_users = survey.users.count
       completed_users = Response.where(survey_id: survey.id).select(:user_id).distinct.count
