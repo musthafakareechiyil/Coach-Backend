@@ -34,8 +34,8 @@ class SurveyKpisController < ApplicationController
       percent = (avg_score / max_score) * 100
       classification = case percent
       when 0..30 then "Poor"
-      when 31..60 then "Average"
-      when 61..80 then "Good"
+      when 30...61 then "Average"
+      when 61...81 then "Good"
       else "Very Proficient"
       end
 
