@@ -21,14 +21,32 @@ This is the backend API for the Survey System, built with Ruby on Rails and Post
 
 1. Clone the repository:
    ```bash
-   git clone https://github.com/
-   cd your-backend-repo
+   git clone https://github.com/](https://github.com/musthafakareechiyil/Coach-Backend.git
+   cd Coach-Backend
    
 2. Install dependencies:
-  ```bash
-  bundle install
+   ```bash
+   bundle install
+   
+3. Set up the database:
+   ```bash
+   rails db:create
+   rails db:migrate
+   rails db:seed
 
-3.Set up the database:
+4. Start the server:
+   ```bash
+   rails s
+
+📘 API Documentation
+   Full API documentation is available via Postman:
+   https://documenter.getpostman.com/view/28032008/2sB2cX91kz
+
+📌 Notes
+- Authentication is handled using a dummy login system.
+- Seeds are available for testing the survey flow.
+- RSpec will be implemented soon for testing.
+
 
 
 
