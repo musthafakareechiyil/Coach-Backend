@@ -9,31 +9,85 @@ Question.delete_all
 Category.delete_all
 User.delete_all
 
+# Create 12 users
+users = 12.times.map do |i|
+  User.create!(
+    name: "User #{i + 1}",
+    email: "user#{i + 1}@example.com",
+    password: "password"
+  )
+end
 
-# Users
-user1 = User.create(name: "admin", email: "admin@example.com", password: "password")
-user2 = User.create(name: "user1", email: "user2@example.com", password: "password")
+# Create rating scale
+scale = RatingScale.create!(
+  name: "5 point rating scale",
+  description: "1 to 5 satisfaction range"
+)
 
-# Rating Scales
-scale = RatingScale.create!(name: "Agreement Scale", description: "1 to 5 Agreement")
-scale.rating_options.create!([
-  { label: "Strongly Disagree", value: 1 },
-  { label: "Disagree", value: 2 },
-  { label: "Neutral", value: 3 },
-  { label: "Agree", value: 4 },
-  { label: "Strongly Agree", value: 5 }
-])
+rating_values = [
+  { label: "Not At All", value: 1 },
+  { label: "Slightly", value: 2 },
+  { label: "Somewhat", value: 3 },
+  { label: "Mostly", value: 4 },
+  { label: "Completely", value: 5 }
+]
 
-# Categories
-cat1 = Category.create!(name: "Teamwork")
-cat2 = Category.create!(name: "Communication")
+rating_values.each { |opt| scale.rating_options.create!(opt) }
 
-# Questions
-q1 = Question.create!(content: "Works well in a team", category: cat1)
-q2 = Question.create!(content: "Communicates clearly", category: cat2)
-q3 = Question.create!(content: "Supports teammates", category: cat1)
+# Categories and questions
+categories_with_questions = {
+  "Teamwork" => [
+    "Collaborates effectively",
+    "Supports team members",
+    "Accepts feedback",
+    "Contributes to team success"
+  ],
+  "Communication" => [
+    "Communicates clearly",
+    "Listens actively",
+    "Shares information",
+    "Gives constructive feedback",
+    "Responds in a timely manner"
+  ],
+  "Problem Solving" => [
+    "Identifies problems quickly",
+    "Thinks critically",
+    "Suggests creative solutions",
+    "Implements fixes efficiently"
+  ],
+  "Leadership" => [
+    "Inspires others",
+    "Delegates effectively",
+    "Leads by example",
+    "Takes responsibility"
+  ],
+  "Time Management" => [
+    "Meets deadlines",
+    "Prioritizes tasks",
+    "Avoids procrastination",
+    "Uses time efficiently"
+  ],
+  "Technical Skills" => [
+    "Understands tools and platforms",
+    "Writes clean code",
+    "Troubleshoots issues",
+    "Adapts to new technologies",
+    "Follows best practices"
+  ]
+}
 
-# Survey
+categories = []
+questions = []
+
+categories_with_questions.each do |cat_name, question_texts|
+  category = Category.create!(name: cat_name)
+  categories << category
+  question_texts.each do |text|
+    questions << Question.create!(content: text, category: category)
+  end
+end
+
+# Create a survey
 survey = Survey.create!(
   name: "Quarterly Review",
   description: "Q1 2025 Performance Survey",
@@ -42,27 +96,18 @@ survey = Survey.create!(
 )
 
 # Assign questions and users to survey
-survey.questions << [ q1, q2, q3 ]
-survey.users << [ user1, user2 ]
+survey.questions << questions
+survey.users << users
 
-# Create sample responses
-Response.create!([
-  {
-    survey: survey,
-    user: user1,
-    question: q1,
-    rating_option: scale.rating_options.find_by(value: 4) # Agree
-  },
-  {
-    survey: survey,
-    user: user1,
-    question: q2,
-    rating_option: scale.rating_options.find_by(value: 5) # Strongly Agree
-  },
-  {
-    survey: survey,
-    user: user2,
-    question: q1,
-    rating_option: scale.rating_options.find_by(value: 3) # Neutral
-  }
-])
+# Create responses for each user and question
+users.each do |user|
+  questions.each do |question|
+    Response.create!(
+      survey: survey,
+      user: user,
+      question: question,
+      rating_option: scale.rating_options.sample
+    )
+  end
+end
+
