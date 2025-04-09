@@ -2,7 +2,16 @@ class SurveysController < ApplicationController
   before_action :set_survey, only: [ :show, :update, :destroy ]
 
   def index
-    surveys = Survey.includes(:rating_scale, :questions, :users).all
+    surveys = Survey.includes(:rating_scale, :questions, :users)
+
+    if params[:search].present?
+      surveys = surveys.where("surveys.name ILIKE ?", "%#{params[:search]}%")
+    end
+
+    sort_by = params[:sort_by].presence_in(%w[name description created_at updated_at]) || "created_at"
+    order = params[:order].to_s.downcase == "asc" ? :asc : :desc
+    surveys = surveys.order(sort_by => order)
+
     render json: surveys.as_json(include: {
       rating_scale: { only: [ :id, :name ] },
       questions: { only: [ :id, :content ] },
