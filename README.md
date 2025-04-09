@@ -21,7 +21,7 @@ This is the backend API for the Survey System, built with Ruby on Rails and Post
 
 1. Clone the repository:
    ```bash
-   git clone https://github.com/](https://github.com/musthafakareechiyil/Coach-Backend.git
+   git clone https://github.com/musthafakareechiyil/Coach-Backend.git
    cd Coach-Backend
    
 2. Install dependencies:
